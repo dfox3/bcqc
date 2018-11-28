@@ -82,11 +82,11 @@ Example:
 Output:
 	
 The only file is is "prefix_counts.csv". This .csv file contains counts for 
-each barcode within individual libraries, and the purity of the tag within a set of 
-libraries. 
+each barcode within individual libraries, and the purity of the barcode within
+a set of libraries. 
 
 
-Version 1.0.0.0
+Version 1.0.0.2
 20181128
 Dylan Fox
 dylan.fox@perkinelmer.com
