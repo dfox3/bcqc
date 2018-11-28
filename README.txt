@@ -22,7 +22,7 @@ Python 2.7
 Installation:
 
 Open a Unix terminal.
-Navigate directories to find location of tagflex.tar.gz.
+Navigate directories to find location of bcqc.tar.gz.
 Extract bcqc.tar.gz in a working directory.
 
 	tar -xvzf bcqc.tar.gz
@@ -37,7 +37,7 @@ Files included in bcqc/:
 
 Use:
 
-Navigate to working tagflex directory.
+Navigate to working bcqc directory.
 Execute python script.
 
 	python bc_reader.py --i path/to/in_dir/ --o out_suffix --l seed_length
