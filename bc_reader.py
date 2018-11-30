@@ -299,6 +299,7 @@ def main():
         most_abundant_hits = 0
         tag_total = 0
         for q in xrange(len(f_keys)):
+            #for q in xrange(97):
             if q == 0:
                 filt_final_csv[q].append(p)
                 filt_percent_final_csv[q].append(p)
@@ -337,6 +338,7 @@ def main():
 
     for i, j in enumerate(filt_final_csv):
         if i != 0 and i < len(f_keys)-4:
+            #if i != 0 and i < 97:
             max_val = 0
             sum_vals = 0
             #print(j)
@@ -361,11 +363,11 @@ def main():
         #print(filt_final_csv[i])
 
 
-
+    ff_csv = [ b for a, b in enumerate(filt_final_csv) if a < 97 ]
     count_out = str(options.o) + "_counts.csv"
     with open(count_out, 'w') as of:
         a = csv.writer(of, delimiter=',')
-        a.writerows(filt_final_csv)
+        a.writerows(ff_csv)
         of.close()
 
     
