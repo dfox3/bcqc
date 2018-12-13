@@ -2,6 +2,12 @@
 
 
 
+## Concept:
+
+This script qualifies **_[NEXTFLEX® Unique Dual Index Barcodes](https://perkinelmer-appliedgenomics.com/library-preparation-kits/nextflex-ngs-barcodes/nextflex-unique-dual-index-barcodes/)_** purity by aligning NGS data (fastq reads) to barcode amplicon reference. This aligner uses [Levenshtein](https://en.wikipedia.org/wiki/Levenshtein_distance) automata to account for fuzzy matching of single position mismatched sequences, inserted/deleted sequences, and frame shifted sequences. 
+
+
+
 ## Installation:
 
 Open a Unix terminal.
@@ -98,6 +104,8 @@ The only file output is "prefix_counts.csv" (the example output will be in
 individual libraries, and the purity of the barcode within a set of libraries. 
 
 
+
+### Info:
 
 **20181213**
 
