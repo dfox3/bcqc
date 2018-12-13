@@ -2,6 +2,26 @@ Barcode QC Software
 
 
 
+Installation:
+
+Open a Unix terminal.
+
+git clone https://github.com/dfox3/bcqc.git
+
+Alternatively, you can download the zip from 
+https://github.com/dfox3/bcqc
+and unzip the directory.
+
+
+Files included in bcqc/:
+	-nermal.py
+	-bc_reader.py
+	-README.txt
+	-spikedb/
+		-*.db references
+
+
+
 Requirements:
 
 Unix-based terminal
@@ -17,22 +37,8 @@ Python 2.7
    datetime
    sqlite3
 
+ - Script may be compatible with Python 3 version, but never tested.
 
-
-Installation:
-
-Open a Unix terminal.
-Navigate directories to find location of bcqc.tar.gz.
-Extract bcqc.tar.gz in a working directory.
-
-	tar -xvzf bcqc.tar.gz
-
-Files included in bcqc/:
-	-nermal.py
-	-bc_reader.py
-	-README.txt
-	-spikedb/
-		-*.db references
 
 
 Use:
@@ -56,12 +62,6 @@ Execute python script.
 	--o out_suffix
 	All output reports will contain the out_suffix specified. Option 
 	available for labelling purposes.
-
-	--l seed_length
-	Seed length. Recommended value: 12. Searching for tags in chunks of 
-	seed length. Seed can be length 2, 3, 4, 6, 9, or 12. Less mismatches
-	allowed and speed optomized for larger seeds. Any seed lengths under 9
-	are not recommended. 
 	
 	--m (optional) allows 1 mismatch per seed length 
 	Default: False.
@@ -69,6 +69,12 @@ Execute python script.
 	--d (optional) distributes multiple reads to each hit.
 	Fractions of reads are distributed to tags where there are too many 
 	mismatches to determine original tag. Default: False.
+
+	--l (optional) Seed length. Default: 12 (recommended). 
+	Minimum: 2. Maximum: 12. Ignore if reads are > 36bp.
+
+	--s (optional) Scan length. Default: 32 (recommended). 
+	Ignore if reads are > 36bp.
 
 
 
@@ -86,7 +92,8 @@ each barcode within individual libraries, and the purity of the barcode
 within a set of libraries. 
 
 
-Version 1.0.0.3
+
+Version 1.0.1.1
 20181128
 Dylan Fox
 dylan.fox@perkinelmer.com
