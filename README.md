@@ -61,7 +61,7 @@ Navigate to working bcqc directory.
 Execute python script.
 
 ```
-python bc_reader.py --i path/to/in_dir/ --o out_prefix --l seed_length
+python bc_reader.py --i path/to/in_dir/ --o out_prefix --x
 
 --h for more help
 
@@ -74,12 +74,12 @@ pairs when filtering tagged reads. However, if R1 and R2 for a library
 are both present, the reads that are tagged in either will be removed in
 both.
 
---x (optional) Index filter libraries before quality assessment.
-Requires corresponding index files in --i directory to function properly.
-
 --o out_prefix
 All output reports will contain the out_prefix specified. Option 
 available for labelling purposes.
+
+--x (optional) Index filter libraries before quality assessment.
+Requires corresponding index files in --i directory to function properly.
 
 --m (optional) allows 1 mismatch per seed length 
 Default: False.
@@ -101,7 +101,7 @@ Ignore if reads are > 36bp.
 
 ```
 cd bcqc
-python bc_reader.py --i testFastqs/ --o test
+python bc_reader.py --i testFastqs/ --o test --x
 ```
 
 

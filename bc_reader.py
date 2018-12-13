@@ -47,7 +47,7 @@ parser.add_argument('--o',
 parser.add_argument('--x',
                     dest='x',
                     action='store_true',
-                    help='Index filter libraries before quality assessment.')
+                    help='(Recommended) Index filter libraries before quality assessment.')
 parser.add_argument('--m',
                     dest='m',
                     action='store_true',
