@@ -5,7 +5,6 @@ from os import listdir
 from os.path import isfile, join
 from Bio.SeqIO.QualityIO import FastqGeneralIterator
 from Bio import SeqIO
-import nermal
 import bisect
 import random
 import itertools
@@ -16,6 +15,10 @@ import gzip
 import string
 from datetime import datetime
 import sqlite3
+import shutil
+
+import nermal
+from index_filter import printOut, dictionaryMerge, averageDips
 
 #--------------------------------------------------------------------------------------------------
 #Command line input parameters
@@ -41,6 +44,10 @@ parser.add_argument('--o',
                     help="Name of output report.\nAll output reports will " + \
                     "contain the out_suffix specified. Option available fo" + \
                     "r labelling purposes.")
+parser.add_argument('--x',
+                    dest='x',
+                    action='store_true',
+                    help='Index filter libraries before quality assessment.')
 parser.add_argument('--m',
                     dest='m',
                     action='store_true',
@@ -59,19 +66,29 @@ parser.add_argument('--s',
                     help='Scan length. Default: 32 (recommended). Ignore if reads are > 36bp')
 
 
+
 parser.set_defaults(l=12)
 parser.set_defaults(s=32)
+parser.set_defaults(x=False)
 parser.set_defaults(m=False)
 parser.set_defaults(d=False)
 #--------------------------------------------------------------------------------------------------
+
+Q_SCORES = {'!':0, '"':1, '#':2, '$':3, '%':4, '&':5, "'":6, '(':7, ')':8,
+            '*':9, '+':10,',':11,'-':12,'.':13,'/':14,'0':15,'1':16,'2':17,
+            '3':18,'4':19,'5':20,'6':21,'7':22,'8':23,'9':24,':':25,';':26,
+            '<':27,'=':28,'>':29,'?':30,'@':31,'A':32,'B':33,'C':34,'D':35,
+            'E':36,'F':37,'G':38,'H':39,'I':40,'J':41}
 
 def main():
     start_time = datetime.now()
     print("Parsing arguments")
     options = parser.parse_args()
-    seed_length, scan_length, distribute_multiples, only_files, db_name, input_dir, count_out = initializeVariables(options)
+    seed_length, scan_length, distribute_multiples, only_files, db_name, input_dir, count_out, index_filt, out_prefix = initializeVariables(options)
+    if index_filt:
+        input_dir = indexFilter(input_dir, out_prefix)
     collapsed_ref_names, filt_ref_pos, match_ref_pos = noahLoad(db_name)
-    tag_bin_bin, total_seqs = binning(seed_length, scan_length, distribute_multiples, only_files, input_dir, filt_ref_pos, match_ref_pos)
+    tag_bin_bin, total_seqs = binning(seed_length, scan_length, distribute_multiples, only_files, input_dir, filt_ref_pos, match_ref_pos, index_filt)
     filt_final_csv, filt_percent_final_csv = toPrintInfo(only_files, collapsed_ref_names, tag_bin_bin, total_seqs)
     toPrint(filt_final_csv, count_out)
     print("Run time: " + str(datetime.now() - start_time))
@@ -96,14 +113,16 @@ def initializeVariables(options):
     
     count_out = str(options.o) + "_counts.csv"
 
-    return seed_length, scan_length, distribute_multiples, only_files, db_name, str(options.i), count_out
+    return seed_length, scan_length, distribute_multiples, only_files, db_name, str(options.i), count_out, options.x, options.o
 
 
-def binning(seed_length, scan_length, distribute_multiples, only_files, input_dir, filt_ref_pos, match_ref_pos):
+def binning(seed_length, scan_length, distribute_multiples, only_files, input_dir, filt_ref_pos, match_ref_pos, index_filt):
     print("Counting tags")
     filter_reads = {}
     tag_bin_bin = {}
     total_seqs = {}
+    if index_filt:
+        only_files = [f for f in listdir(input_dir) if isfile(join(input_dir, f))]
     for o in only_files:
         print("Parsing " + str(o))
 
@@ -126,12 +145,20 @@ def binning(seed_length, scan_length, distribute_multiples, only_files, input_di
         else:
             paired_end_reads_half_finished = True
 
-        for (title, sequence, quality) in FastqGeneralIterator(gzip.open(handle)):
-            seqs.append(sequence)
-            titles.append(title)
-            qualities.append(quality)
-            if paired_end_reads_half_finished == False:    
-                filter_reads[root_name].append(False)
+        if index_filt:
+            for (title, sequence, quality) in FastqGeneralIterator(open(handle)):
+                seqs.append(sequence)
+                titles.append(title)
+                qualities.append(quality)
+                if paired_end_reads_half_finished == False:    
+                    filter_reads[root_name].append(False)
+        else:
+            for (title, sequence, quality) in FastqGeneralIterator(gzip.open(handle)):
+                seqs.append(sequence)
+                titles.append(title)
+                qualities.append(quality)
+                if paired_end_reads_half_finished == False:    
+                    filter_reads[root_name].append(False)
 
         found_count = 0
         miss_count = 0
@@ -315,6 +342,109 @@ def toPrintInfo(only_files, collapsed_ref_names, tag_bin_bin, total_seqs):
 
     return filt_final_csv, filt_percent_final_csv
 
+
+def indexFilter(input_dir, out_prefix):
+    startTime = datetime.now()
+    quality_threshold = 30
+    
+    print("Tagging Ill Indices")
+    filter_indecies = {}
+    index_filtered_dir = str(input_dir) + "i"
+    if not os.path.exists(index_filtered_dir):
+        os.makedirs(index_filtered_dir)
+    else:
+        shutil.rmtree(index_filtered_dir)
+        os.makedirs(index_filtered_dir)
+
+    only_files = [ f for f in listdir(input_dir) if isfile(join(input_dir, f)) ]
+    only_files.sort()
+    temp = []
+    root_names = {}
+
+    for o in only_files:
+        qualities = [] 
+        name_fields = o.split('_')
+        index_file = False
+        root_name = ""
+        for n in name_fields:
+            if n == "I1" or n == "I2":
+                index_file = True
+                break
+            if n == "R1" or n == "R2":
+                break
+            root_name = str(root_name) + str(n) + "_"
+        root_name = root_name[:-1]
+        if root_name not in root_names:
+            root_names[o] = root_name
+
+        print("Parsing " + str(o))
+        if index_file:
+            paired_end_indecies_half_finished = False
+            if root_name not in filter_indecies:
+                filter_indecies[root_name] = []
+            else:
+                paired_end_indecies_half_finished = True
+
+            handle = str(input_dir) + "/" +str(o)
+        
+            for (title, sequence, quality) in FastqGeneralIterator(gzip.open(handle)):
+                qualities.append(quality)
+                if paired_end_indecies_half_finished == False:    
+                    filter_indecies[root_name].append(False)
+            
+            for q in xrange(len(qualities)):
+                if averageDips(qualities[q], quality_threshold):
+                    filter_indecies[root_name][q] = True
+        else:
+            if root_name not in filter_indecies:
+                filter_indecies[root_name] = []
+                handle = str(input_dir) + "/" +str(o)
+                print("***\nWARNING: Library " + str(o) + " is without corresponding index file(s).\n***")
+                for (title, sequence, quality) in FastqGeneralIterator(gzip.open(handle)):
+                    filter_indecies[root_name].append(False)
+
+        print("# total reads: " + str(len(filter_indecies[root_name])))
+        true_filtereds = [ f for f in xrange(len(filter_indecies[root_name])) if
+                           filter_indecies[root_name][f] == True ]
+        print(" # filtered reads: " + str(len(true_filtereds)))
+
+        if len(filter_indecies[root_name]) == 0:
+            print("  % filtered reads: 0")
+            temp.append([root_name, len(filter_indecies[root_name]),
+                         len(true_filtereds), 0])
+        else:
+            print("  % filtered reads: " + str(float(len(true_filtereds))/
+                                               float(len(filter_indecies[root_name]))*100))
+            temp.append([root_name, len(filter_indecies[root_name]),
+                         len(true_filtereds), float(len(true_filtereds))/
+                         float(len(filter_indecies[root_name]))*100])
+
+    printOut(temp, str(out_prefix)+"_index_filter_report.csv")
+        
+    print("Printing Groomed Reads")
+    for o in only_files:
+        name_field = o.split('/')[-1][:-3]
+        root_name = root_names[o]
+        out_name = str(index_filtered_dir) + "/i" + str(name_field)
+        print(out_name)
+        f = 0
+        handle = str(input_dir) + "/" + str(o)
+        n_fields = o.split('_')
+        for n in n_fields:
+            if n == "R1" or n == "R2":
+                with open(out_name, 'w') as nfq:
+                    content = ""
+                    for (title, sequence, quality) in FastqGeneralIterator(gzip.open(handle)):
+                        if filter_indecies[root_name][f] == False:
+                            nfq.write("@"+str(title)+"\n")
+                            nfq.write(str(sequence)+"\n")
+                            nfq.write("+\n")
+                            nfq.write(str(quality)+"\n")
+                        f += 1
+                    nfq.close()
+
+    print("Run time: " + str(datetime.now() - startTime))
+    return index_filtered_dir
 
 def noahLoad(db_name):
     print("Accessing " + str(db_name))
