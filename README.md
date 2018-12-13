@@ -14,11 +14,11 @@ and unzip the directory.
 
 
 Files included in bcqc/:
-	-nermal.py
-	-bc_reader.py
-	-README.txt
-	-spikedb/
-		-\*.db references
+	- nermal.py
+	- bc_reader.py
+	- README.txt
+	- spikedb/
+		- \*.db references
 
 
 
@@ -27,17 +27,17 @@ Files included in bcqc/:
 Unix-based terminal
 Python 2.7
  - pip installed with:
-   biopython
-   bisect
-   itertools
-   collections
-   argparse
-   csv
-   gzip
-   datetime
-   sqlite3
+    - biopython
+    - bisect
+    - itertools
+    - collections
+    - argparse
+    - csv
+    - gzip
+    - datetime
+    - sqlite3
 
- - Script may be compatible with Python 3 version, but never tested.
+Script may be compatible with Python 3 version, but never tested.
 
 
 
@@ -97,6 +97,6 @@ individual libraries, and the purity of the barcode within a set of libraries.
 
 
 
-## 20181213
-## Dylan Fox
-## dylan.fox@perkinelmer.com
+#### 20181213
+#### Dylan Fox
+#### dylan.fox@perkinelmer.com
