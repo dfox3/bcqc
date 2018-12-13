@@ -8,17 +8,17 @@ Open a Unix terminal.
 
 `git clone https://github.com/dfox3/bcqc.git`
 
-Alternatively, you can download the zip from 
-https://github.com/dfox3/bcqc
-and unzip the directory.
+Alternatively, you can download the zip from \n
+https://github.com/dfox3/bcqc \n
+and unzip the directory. \n
 
 
 Files included in bcqc/:
-	- nermal.py
-	- bc_reader.py
-	- README.txt
-	- spikedb/
-		- \*.db references
+ - nermal.py
+ - bc_reader.py
+ - README.txt
+ - spikedb/
+    - \*.db references
 
 
 
