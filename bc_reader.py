@@ -88,7 +88,7 @@ def main():
     if index_filt:
         input_dir = indexFilter(input_dir, out_prefix)
     collapsed_ref_names, filt_ref_pos, match_ref_pos = noahLoad(db_name)
-    tag_bin_bin, total_seqs = binning(seed_length, scan_length, distribute_multiples, only_files, input_dir, filt_ref_pos, match_ref_pos, index_filt)
+    tag_bin_bin, total_seqs, only_files = binning(seed_length, scan_length, distribute_multiples, only_files, input_dir, filt_ref_pos, match_ref_pos, index_filt)
     filt_final_csv, filt_percent_final_csv = toPrintInfo(only_files, collapsed_ref_names, tag_bin_bin, total_seqs)
     toPrint(filt_final_csv, count_out)
     print("Run time: " + str(datetime.now() - start_time))
@@ -272,7 +272,7 @@ def binning(seed_length, scan_length, distribute_multiples, only_files, input_di
         print("\t* total reads: " + str(len(seqs)))
         tag_bin_bin[o] = tag_bin
         total_seqs[o] = len(seqs)
-    return tag_bin_bin, total_seqs
+    return tag_bin_bin, total_seqs, only_files
 
 
 def toPrintInfo(only_files, collapsed_ref_names, tag_bin_bin, total_seqs):

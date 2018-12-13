@@ -22,7 +22,7 @@ Alternatively, you can download the zip from [the current repo](https://github.c
 Files included in bcqc/:
  - nermal.py/c
  - index_filter.py/c
- - bc_reader.py
+ - **bc_reader.py**
  - README.txt
  - spikedb/
     - \*.db references
