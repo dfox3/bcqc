@@ -8,7 +8,7 @@ Open a Unix terminal.
 
 `git clone https://github.com/dfox3/bcqc.git`
 
-Alternatively, you can download the zip from [the current repo] (https://github.com/dfox3/bcqc) and unzip the directory.
+Alternatively, you can download the zip from [the current repo](https://github.com/dfox3/bcqc) and unzip the directory.
 
 
 Files included in bcqc/:
@@ -35,7 +35,7 @@ Python 2.7
     - datetime
     - sqlite3
 
-For more information on how to pip install, visit [this guide] (https://packaging.python.org/tutorials/installing-packages/#ensure-you-can-run-pip-from-the-command-line) for more information.
+For more information on how to pip install, visit [this guide](https://packaging.python.org/tutorials/installing-packages/#ensure-you-can-run-pip-from-the-command-line) for more information.
 
 Script may be compatible with Python 3 version, but never tested.
 
