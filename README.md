@@ -46,46 +46,46 @@ Python 2.7
 Navigate to working bcqc directory.
 Execute python script.
 
-	`python bc_reader.py --i path/to/in_dir/ --o out_suffix --l seed_length`
+```
+python bc_reader.py --i path/to/in_dir/ --o out_suffix --l seed_length
 
-	```
-	--h for more help
-	
-	--i path/to/in_dir/
-	The input directory must contain only .fastq.gz sequencing files. Do not
-	include I1/I2 index files. The software will automatically filter the R1
-	and/or R2 files with respect to paired-ended-ness. For example, if only 
-	R1s are present in the input directory, there will not be any respect of
-	pairs when filtering tagged reads. However, if R1 and R2 for a library
-	are both present, the reads that are tagged in either will be removed in
-	both.
+--h for more help
 
-	--o out_suffix
-	All output reports will contain the out_suffix specified. Option 
-	available for labelling purposes.
-	
-	--m (optional) allows 1 mismatch per seed length 
-	Default: False.
+--i path/to/in_dir/
+The input directory must contain only .fastq.gz sequencing files. Do not
+include I1/I2 index files. The software will automatically filter the R1
+and/or R2 files with respect to paired-ended-ness. For example, if only 
+R1s are present in the input directory, there will not be any respect of
+pairs when filtering tagged reads. However, if R1 and R2 for a library
+are both present, the reads that are tagged in either will be removed in
+both.
 
-	--d (optional) distributes multiple reads to each hit.
-	Fractions of reads are distributed to tags where there are too many 
-	mismatches to determine original tag. Default: False.
+--o out_suffix
+All output reports will contain the out_suffix specified. Option 
+available for labelling purposes.
 
-	--l (optional) Seed length. Default: 12 (recommended). 
-	Minimum: 2. Maximum: 12. Ignore if reads are > 36bp.
+--m (optional) allows 1 mismatch per seed length 
+Default: False.
 
-	--s (optional) Scan length. Default: 32 (recommended). 
-	Ignore if reads are > 36bp.
-	```
+--d (optional) distributes multiple reads to each hit.
+Fractions of reads are distributed to tags where there are too many 
+mismatches to determine original tag. Default: False.
+
+--l (optional) Seed length. Default: 12 (recommended). 
+Minimum: 2. Maximum: 12. Ignore if reads are > 36bp.
+
+--s (optional) Scan length. Default: 32 (recommended). 
+Ignore if reads are > 36bp.
+```
 
 
 
 ### Example:
 
-	```
-	cd bcqc
-	python bc_reader.py --i testFastqs/ --o test
-	```
+```
+cd bcqc
+python bc_reader.py --i testFastqs/ --o test
+```
 
 
 
