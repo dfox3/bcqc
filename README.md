@@ -1,8 +1,8 @@
-#Barcode QC Software
+# Barcode QC Software
 
 
 
-##Installation:
+## Installation:
 
 Open a Unix terminal.
 
@@ -18,11 +18,11 @@ Files included in bcqc/:
 	-bc_reader.py
 	-README.txt
 	-spikedb/
-		-*.db references
+		-\*.db references
 
 
 
-##Requirements:
+## Requirements:
 
 Unix-based terminal
 Python 2.7
@@ -41,7 +41,7 @@ Python 2.7
 
 
 
-##Use:
+## Use:
 
 Navigate to working bcqc directory.
 Execute python script.
@@ -80,7 +80,7 @@ Execute python script.
 
 
 
-###Example:
+### Example:
 
 	```
 	cd bcqc
@@ -89,7 +89,7 @@ Execute python script.
 
 
 
-###Output:
+### Output:
 	
 The only file output is "prefix_counts.csv" (the example output will be in 
 "test_counts.csv"). This .csv file contains counts for each barcode within 
@@ -97,6 +97,6 @@ individual libraries, and the purity of the barcode within a set of libraries.
 
 
 
-##20181213
-##Dylan Fox
-##dylan.fox@perkinelmer.com
+## 20181213
+## Dylan Fox
+## dylan.fox@perkinelmer.com
