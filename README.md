@@ -26,6 +26,10 @@ Unix-based terminal
 Python 2.7
  - pip installed with:
     - biopython
+
+For more information on how to pip install, visit [this guide](https://packaging.python.org/tutorials/installing-packages/#ensure-you-can-run-pip-from-the-command-line) for more information.
+
+ - other imports from [The Python Standard Library](https://docs.python.org/2/library/) (typically pre-installed):
     - bisect
     - itertools
     - collections
@@ -34,8 +38,6 @@ Python 2.7
     - gzip
     - datetime
     - sqlite3
-
-For more information on how to pip install, visit [this guide](https://packaging.python.org/tutorials/installing-packages/#ensure-you-can-run-pip-from-the-command-line) for more information.
 
 Script may be compatible with Python 3 version, but never tested.
 
@@ -98,5 +100,7 @@ individual libraries, and the purity of the barcode within a set of libraries.
 
 
 **20181213**
+
 **Dylan Fox**
+
 **dylan.fox@perkinelmer.com**
