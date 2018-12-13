@@ -123,6 +123,7 @@ def binning(seed_length, scan_length, distribute_multiples, only_files, input_di
     total_seqs = {}
     if index_filt:
         only_files = [f for f in listdir(input_dir) if isfile(join(input_dir, f))]
+        only_files.sort()
     for o in only_files:
         print("Parsing " + str(o))
 
