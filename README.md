@@ -4,7 +4,7 @@
 
 ## Concept:
 
-This script qualifies **_[NEXTFLEX® Unique Dual Index Barcode](https://perkinelmer-appliedgenomics.com/library-preparation-kits/nextflex-ngs-barcodes/nextflex-unique-dual-index-barcodes/)_** purity by aligning NGS data ([fastq reads](https://en.wikipedia.org/wiki/FASTQ_format)) to barcode amplicon reference. This aligner uses [Levenshtein](https://en.wikipedia.org/wiki/Levenshtein_distance) automata to account for fuzzy matching of single position mismatched sequences, inserted/deleted sequences, and frame shifted sequences. 
+This script qualifies **_[NEXTFLEX® Unique Dual Index Barcode](https://perkinelmer-appliedgenomics.com/library-preparation-kits/nextflex-ngs-barcodes/nextflex-unique-dual-index-barcodes/)_** purity by aligning NGS data ([fastq reads](https://en.wikipedia.org/wiki/FASTQ_format)) to a barcoded amplicon reference. This aligner uses [Levenshtein](https://en.wikipedia.org/wiki/Levenshtein_distance) automata to account for fuzzy matching of single position mismatched sequences, inserted/deleted sequences, and frame shifted sequences. 
 
 
 
