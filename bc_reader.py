@@ -29,14 +29,7 @@ parser.add_argument('--i',
                     type=str,
                     required=True,
                     help="Input directory, contains reads in fastq.gz " + \
-                    "format. Do not include I1/I2 index file" + \
-                    "s. The software will automatically filter the R1 and/" + \
-                    "or R2 files with respect to paired-ended-ness. For ex" + \
-                    "ample, if only R1s are present in the input directory" + \
-                    ", there will not be any respect of pairs when filterin" + \
-                    "g tagged reads. However, if R1 and R2 for a library a" + \
-                    "re both present, the reads that are tagged in either " + \
-                    "will be removed in both.")
+                    "format. Include I1/I2 index files if --x is thrown.")
 parser.add_argument('--o',
                     metavar='-output',
                     type=str,

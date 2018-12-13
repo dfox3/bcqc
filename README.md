@@ -66,19 +66,14 @@ python bc_reader.py --i path/to/in_dir/ --o out_prefix --x
 --h for more help
 
 --i path/to/in_dir/
-The input directory must contain only .fastq.gz sequencing files. Do not
-include I1/I2 index files. The software will automatically filter the R1
-and/or R2 files with respect to paired-ended-ness. For example, if only 
-R1s are present in the input directory, there will not be any respect of
-pairs when filtering tagged reads. However, if R1 and R2 for a library
-are both present, the reads that are tagged in either will be removed in
-both.
+The input directory must contain only .fastq.gz sequencing files. Include 
+I1/I2 index files if --x flag is thrown. 
 
 --o out_prefix
 All output reports will contain the out_prefix specified. Option 
 available for labelling purposes.
 
---x (optional) Index filter libraries before quality assessment.
+--x (optional, recommended) Index filter libraries before quality assessment.
 Requires corresponding index files in --i directory to function properly.
 
 --m (optional) allows 1 mismatch per seed length 
