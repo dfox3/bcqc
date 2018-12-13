@@ -1,12 +1,12 @@
-Barcode QC Software
+#Barcode QC Software
 
 
 
-Installation:
+##Installation:
 
 Open a Unix terminal.
 
-git clone https://github.com/dfox3/bcqc.git
+`git clone https://github.com/dfox3/bcqc.git`
 
 Alternatively, you can download the zip from 
 https://github.com/dfox3/bcqc
@@ -22,7 +22,7 @@ Files included in bcqc/:
 
 
 
-Requirements:
+##Requirements:
 
 Unix-based terminal
 Python 2.7
@@ -41,13 +41,14 @@ Python 2.7
 
 
 
-Use:
+##Use:
 
 Navigate to working bcqc directory.
 Execute python script.
 
-	python bc_reader.py --i path/to/in_dir/ --o out_suffix --l seed_length
+	`python bc_reader.py --i path/to/in_dir/ --o out_suffix --l seed_length`
 
+	```
 	--h for more help
 	
 	--i path/to/in_dir/
@@ -75,25 +76,27 @@ Execute python script.
 
 	--s (optional) Scan length. Default: 32 (recommended). 
 	Ignore if reads are > 36bp.
+	```
 
 
 
-Example:
+###Example:
 
+	```
 	cd bcqc
-	python bc_reader.py --i testFastqs/ --l 12 --o 20180615 --f
+	python bc_reader.py --i testFastqs/ --o test
+	```
 
 
 
-Output:
+###Output:
 	
-The only file is is "prefix_counts.csv". This .csv file contains counts for 
-each barcode within individual libraries, and the purity of the barcode 
-within a set of libraries. 
+The only file output is "prefix_counts.csv" (the example output will be in 
+"test_counts.csv"). This .csv file contains counts for each barcode within 
+individual libraries, and the purity of the barcode within a set of libraries. 
 
 
 
-Version 1.0.1.1
-20181128
-Dylan Fox
-dylan.fox@perkinelmer.com
+##20181213
+##Dylan Fox
+##dylan.fox@perkinelmer.com

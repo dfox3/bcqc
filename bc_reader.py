@@ -305,8 +305,6 @@ def toPrintInfo(only_files, collapsed_ref_names, tag_bin_bin, total_seqs):
 
             filt_final_csv[i].append(sum_vals)
             if sum_vals != 0:
-                print(max_val)
-                print(sum_vals)
                 filt_final_csv[i].append(str(format((float(max_val)/float(sum_vals)) * 100.0, '.2f')))
             else:
                 filt_final_csv[i].append("n/a")
