@@ -71,7 +71,7 @@ I1/I2 index files if --x flag is thrown.
 
 --o out_prefix
 All output reports will contain the out_prefix specified. Option 
-available for labelling purposes.
+available for labeling purposes.
 
 --x (optional, recommended) Index filter libraries before quality assessment.
 Requires corresponding index files in --i directory to function properly.
