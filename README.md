@@ -14,7 +14,7 @@ This script emphasizes the use of index filtering. Sequencer induced noise can b
 
 Open a Unix terminal.
 
-`git clone https://github.com/dfox3/bcqc.git`
+`git clone -b rhs https://github.com/dfox3/bcqc.git`
 
 Alternatively, you can download the zip from [the current repo](https://github.com/dfox3/bcqc) and unzip the directory.
 
