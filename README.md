@@ -38,7 +38,7 @@ Python 2.7
  - pip installed with:
     - [biopython](https://biopython.org/)
 
-For more information on how to pip install, visit [this guide](https://packaging.python.org/tutorials/installing-packages/#ensure-you-can-run-pip-from-the-command-line) for more information.
+For more information on how to pip install, visit [this guide](https://packaging.python.org/tutorials/installing-packages/#ensure-you-can-run-pip-from-the-command-line).
 
  - other imports from [The Python Standard Library](https://docs.python.org/2/library/) (typically pre-installed):
     - [bisect](https://docs.python.org/2/library/bisect.html)
