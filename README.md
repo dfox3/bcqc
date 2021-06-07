@@ -63,7 +63,7 @@ Navigate to working bcqc directory.
 Execute python script.
 
 ```
-python bcqc.py --i path/to/in_dir/ --o out_prefix --x
+python bcqc_remix.py -h
 
   -h, --help   show this help message and exit
   -i -input    Input directory, contains reads in fastq.gz format. Include
