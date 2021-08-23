@@ -310,6 +310,16 @@ def indexFilter(input_dir, out_prefix):
 def binTags(input_dir, db_file, mm, scan_length, index_filt, amp_map, only_files, count_out, out_prefix, windows, seed_length, distribute_multiples):
     # compile tag regex and map
 
+    print(amp_map)
+    print("amp map")
+    rev_amp_map = {}
+    for a in amp_map:
+        if amp_map[a] not in rev_amp_map:
+            rev_amp_map[amp_map[a]] = {}
+        rev_amp_map[amp_map[a]][a] = 0
+    print(rev_amp_map)
+    print("rev_amp_map")
+
 
     collapsed_ref_names, filt_ref_pos, match_ref_pos = noahLoad(db_file)
 
@@ -532,9 +542,16 @@ def toPrintInfo(only_files, collapsed_ref_names, tag_bin_bin, total_seqs, amp_ma
                 if temp_hits > most_abundant_hits:
                     most_abundant = q
                     most_abundant_hits = temp_hits
-    print("filt final csv")
-    for f in filt_final_csv:
-        print(f)
+    #print("filt final csv")
+    #for f in filt_final_csv:
+        #print(f)
+
+
+    rev_amp_map = {}
+    for a in amp_map:
+        if amp_map[a] not in rev_amp_map:
+            rev_amp_map[amp_map[a]] = {}
+        rev_amp_map[amp_map[a]][a] = 0
 
     not_enough_reads = []
     not_pure = []
@@ -542,19 +559,26 @@ def toPrintInfo(only_files, collapsed_ref_names, tag_bin_bin, total_seqs, amp_ma
     max_idxs = []
     total_tags = []
     purities = []
-
+    impurities = []
     for i, j in enumerate(filt_final_csv):
         #print(j)
         if i != 0 and i < len(f_keys)-3:
             max_val = 0
             max_idx = -1
             sum_vals = 0
+            impurity = 0
+            combo_counts = []
             for k, l in enumerate(j):
                 if k != 0:
                     if l > max_val:
                         max_val = l
                         max_idx = k
                     sum_vals += l
+                    if i in rev_amp_map:
+                        if k not in rev_amp_map[i]:
+                            impurity += l
+                        else:
+                            combo_counts.append(l)
 
 
             filt_final_csv[i].append(sum_vals)
@@ -563,15 +587,23 @@ def toPrintInfo(only_files, collapsed_ref_names, tag_bin_bin, total_seqs, amp_ma
             #print(max_idx)
            # print(len(max_idxs))
             if sum_vals != 0:
-                filt_final_csv[i].append(str(format((float(max_val)/float(sum_vals)) * 100.0, '.2f')))
+                if len(combo_counts) != 0:
+                    filt_final_csv[i].append(";".join([ str(format(float(c)/float(sum_vals) *100.0, '.2f')) for c in combo_counts ]))
+                else:
+                    filt_final_csv[i].append(str(format((float(max_val)/float(sum_vals)) * 100.0, '.2f')))
+                filt_final_csv[i].append(str(format((float(impurity)/float(sum_vals)) * 100.0, '.2f')))
                 purities.append((float(max_val)/float(sum_vals)) * 100.0)
+                impurities.append(float(format((float(impurity)/float(sum_vals)) * 100.0, '.2f')))
             else:
                 filt_final_csv[i].append("n/a")
+                filt_final_csv[i].append("n/a")
                 purities.append("n/a")
+                impurities.append("n/a")
         else:
             if i == 0:
                 filt_final_csv[i].append("total_bc_reads")
                 filt_final_csv[i].append("bc_purity")
+                filt_final_csv[i].append("bc_impurity")
 
     found_in_amp_map = []
     amp_map_keys = amp_map.keys()
@@ -579,23 +611,34 @@ def toPrintInfo(only_files, collapsed_ref_names, tag_bin_bin, total_seqs, amp_ma
     tags = set()
     for a in amp_map_keys:
         tags.add(amp_map[a])
-    for i, j in enumerate(max_idxs):
-        print(i)
-        print(max_idxs[i])
-        if j in amp_map:
-            print(amp_map[j])
-        else:
-            print("not in amp_map")
-        print(purities[i])
-        print(0)
-        if j in amp_map and i+1 in tags:
+    for i, j in enumerate(amp_map_keys):
+        #print(i)
+        #print(max_idxs[i])
+        #if j in amp_map:
+        #    print(amp_map[j])
+        #else:
+        #    print("not in amp_map")
+        #print(purities[i])
+        #print(0)
+
+
+
+
+
+        if amp_map[j] in tags:
             found_in_amp_map.append(j)
-            if (i+1 != amp_map[j] or purities[i] < 99.5):
+            if impurities[amp_map[j]-1] > .5:
+                print(j)
+                print(amp_map[j])
+                print(impurities[amp_map[j]-1])
                 not_pure.append((j,amp_map[j]))
-            if total_tags[i] < 1000:
+            if filt_final_csv[-1][j] - filt_final_csv[-2][j] < 1000:
+                print(j)
+                print(amp_map[j])
+                print(filt_final_csv[-1][j] - filt_final_csv[-2][j])
                 not_enough_reads.append("bc#" + str(j))
         else:
-            if total_tags[i] > 100:
+            if filt_final_csv[-1][j] - filt_final_csv[-2][j] > 100:
                 dirty_when_empty.append("bc#" + str(j) + ":tag#" + str(i+1))
     found_in_amp_map = set(found_in_amp_map)
     for a in amp_map_keys:
